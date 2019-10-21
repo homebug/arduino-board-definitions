@@ -111,7 +111,7 @@ static const uint8_t DAC0 = PIN_DAC0;
 #define GSM_POWER_OFF        (7ul)
 #define ANALOG_IN            (10ul)
 #define RELAY_OUT            (11ul)
-static const uint8_t ATN = PIN_ATN;
+//static const uint8_t ATN = PIN_ATN;
 
 /*
  * Serial interfaces
