@@ -16,8 +16,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef _VARIANT_ARDUINO_ZERO_
-#define _VARIANT_ARDUINO_ZERO_
+#ifndef _VARIANT_HOMEBUG_EBUG_V3_
+#define _VARIANT_HOMEBUG_EBUG_V3_
 
 // The definitions here needs a SAMD core >=1.6.10
 #define ARDUINO_SAMD_VARIANT_COMPLIANCE 10610
@@ -80,7 +80,7 @@ extern "C" unsigned int PINCOUNT_fn();
 // #define digitalPinToTimer(P)
 
 // LEDs
-#define PIN_LED              (0ul)
+#define PIN_LED              (11ul)
 #define LED_BUILTIN          PIN_LED
 
 /*
@@ -122,23 +122,23 @@ static const uint8_t DAC0 = PIN_DAC0;
 #define PAD_SERIAL_GSM_TX      (UART_TX_PAD_2)
 #define PAD_SERIAL_GSM_RX      (SERCOM_RX_PAD_1)
 
-// Serial RS485 - sercom2
-#define PIN_SERIAL_RS485_RX    (9ul)
-#define PIN_SERIAL_RS485_TX    (8ul)
+// Serial RJ12 1 - sercom2
+#define PIN_SERIAL_RJ12A_RX    (15ul)
+#define PIN_SERIAL_RJ12A_TX    (14ul)
+#define PAD_SERIAL_RJ12A_TX    (UART_TX_PAD_0)
+#define PAD_SERIAL_RJ12A_RX    (SERCOM_RX_PAD_1)
+
+// Serial RJ12 2 - sercom4
+#define PIN_SERIAL_RJ12B_RX    (9ul)
+#define PIN_SERIAL_RJ12B_TX    (8ul)
+#define PAD_SERIAL_RJ12B_TX    (UART_TX_PAD_0)
+#define PAD_SERIAL_RJ12B_RX    (SERCOM_RX_PAD_1)
+
+// Serial RS485 - sercom1
+#define PIN_SERIAL_RS485_RX    (19ul)
+#define PIN_SERIAL_RS485_TX    (18ul)
 #define PAD_SERIAL_RS485_TX    (UART_TX_PAD_0)
 #define PAD_SERIAL_RS485_RX    (SERCOM_RX_PAD_1)
-
-// Serial Friendcom - sercom4
-#define PIN_SERIAL_FC_RX       (15ul)
-#define PIN_SERIAL_FC_TX       (14ul)
-#define PAD_SERIAL_FC_TX       (UART_TX_PAD_0)
-#define PAD_SERIAL_FC_RX       (SERCOM_RX_PAD_1)
-
-// Serial A1100 - sercom1
-#define PIN_SERIAL_A1100_RX    (19ul)
-#define PIN_SERIAL_A1100_TX    (18ul)
-#define PAD_SERIAL_A1100_TX    (UART_TX_PAD_0)
-#define PAD_SERIAL_A1100_RX    (SERCOM_RX_PAD_1)
 
 /*
  * SPI Interfaces
@@ -152,7 +152,7 @@ static const uint8_t DAC0 = PIN_DAC0;
 #define PAD_SPI_TX           SPI_PAD_2_SCK_3
 #define PAD_SPI_RX           SERCOM_RX_PAD_0
 
-static const uint8_t SS	  = 25; // SERCOM4 last PAD is present on A2 but HW SS isn't used. Set here only for reference.
+static const uint8_t SS   = 25;
 static const uint8_t MOSI = PIN_SPI_MOSI ;
 static const uint8_t MISO = PIN_SPI_MISO ;
 static const uint8_t SCK  = PIN_SPI_SCK ;
@@ -212,9 +212,9 @@ extern SERCOM sercom4;
 extern SERCOM sercom5;
 
 extern Uart SerialGSM;
+extern Uart SerialRJ12A;
+extern Uart SerialRJ12B;
 extern Uart SerialRS485;
-extern Uart SerialFriendcom;
-extern Uart SerialA1100;
 
 #endif
 
@@ -247,5 +247,8 @@ unsigned int PINCOUNT_fn();
 #define SERIAL_PORT_HARDWARE        SerialA1100
 #define SERIAL_PORT_HARDWARE_OPEN   SerialA1100
 
-#endif /* _VARIANT_ARDUINO_ZERO_ */
+// Add an alias for Debug serial as many libraries refers directly to it
+#define Serial SerialUSB
+
+#endif /* _VARIANT_HOMEBUG_EBUG_V3_ */
 

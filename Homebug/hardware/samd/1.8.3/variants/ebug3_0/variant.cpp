@@ -21,38 +21,41 @@
  * +------------+------------------+--------+-----------------+--------------------------------------------------------------------------------------------------------
  * |            | Digital Low      |        |                 |
  * +------------+------------------+--------+-----------------+--------------------------------------------------------------------------------------------------------
- * | 0          | A0               |  PA02  | LED                            | EIC/EXTINT[2] *ADC/AIN[0]  DAC/VOUT  PTC/Y[0]
- * | 1          | AREF             |  PA03  | VREFA                          | EIC/EXTINT[3] *[ADC|DAC]/VREFA ADC/AIN[1] PTC/Y[1]
- * | 2          | A1               |  PB08  | RS485 enable                   | EIC/EXTINT[8] *ADC/AIN[2]            PTC/Y[14] SERCOM4/PAD[0]                  TC4/WO[0]
- * | 3          | A2               |  PB09  | GSM power on                   | EIC/EXTINT[9] *ADC/AIN[3]            PTC/Y[15] SERCOM4/PAD[1]                  TC4/WO[1]
- * | 4          | A3               |  PA04  | VREFB                          | EIC/EXTINT[4] *ADC/AIN[4]  AC/AIN[0] PTC/Y[2]  SERCOM0/PAD[0]                  TCC0/WO[0]
- * | 5          | A4               |  PA05  | RX GSM SERCOM0.1               | EIC/EXTINT[5]  ADC/AIN[5]  AC/AIN[1] PTC/Y[5]  *SERCOM0/PAD[1]                 TCC0/WO[1]
- * | 6          | ~8               |  PA06  | TX GSM SERCOM0.2               | EIC/EXTINT[6]  ADC/AIN[6]  AC/AIN[2] PTC/Y[4]  *SERCOM0/PAD[2]                 TCC1/WO[0]
- * | 7          | ~9               |  PA07  | GSM POWER OFF                  | EIC/EXTINT[7] *ADC/AIN[7]  AC/AIN[3] PTC/Y[5]  SERCOM0/PAD[3]                 *TCC1/WO[1]
- * | 8          | ~4               |  PA08  | RS485 TX SERCOM2.0             | EIC/NMI        ADC/AIN[16]           PTC/X[0] *SERCOM0/PAD[0]  SERCOM2/PAD[0] *TCC0/WO[0]  TCC1/WO[2]
- * | 9          | ~3               |  PA09  | RS485 RX SERCOM2.1             | EIC/EXTINT[9]  ADC/AIN[17]           PTC/X[1] *SERCOM0/PAD[1]  SERCOM2/PAD[1] *TCC0/WO[1]  TCC1/WO[3]
- * | 10         | 1 <- TX          |  PA10  | Analog In                      | EIC/EXTINT[10]*ADC/AIN[18]           PTC/X[2]  SERCOM0/PAD[2]                  TCC0/WO[2]  TCC1/WO[0]
- * | 11         | 0 -> RX          |  PA11  | Relay Out                      | EIC/EXTINT[11]*ADC/AIN[19]           PTC/X[3]  SERCOM0/PAD[3]  SERCOM2/PAD[3]  TCC0/WO[3]  TCC1/WO[1]
- * | 12         | 4                |  PB10  | Expansion                      | EIC/EXTINT[10]                 SERCOM4/PAD[2]  TC5/WO[0]  TCC0/WO[4]
- * | 13         | 3                |  PB11  | Expansion                      | EIC/EXTINT[11]                 SERCOM4/PAD[3]  TC5/WO[1]  TCC0/WO[5]
- * | 14         | 1                |  PA12  | Friendcom TX/I2C SDA SERCOM4.0 | EIC/EXTINT[12] SERCOM2/PAD[0] *SERCOM4/PAD[0]  TCC2/WO[0] TCC0/WO[6]
- * | 15         | ATN              |  PA13  | Friendcom RX/I2C SCL SERCOM4.1 | EIC/EXTINT[13] SERCOM2/PAD[1] *SERCOM4/PAD[1]  TCC2/WO[1] TCC0/WO[7]
- * | 16         | 2                |  PA14  | Expansion                      | EIC/EXTINT[14]                                 SERCOM2/PAD[2]  SERCOM4/PAD[2]  TC3/WO[0]   TCC0/WO[4]
- * | 17         | ~5               |  PA15  | Expansion                      | EIC/EXTINT[15]                                 SERCOM2/PAD[3]  SERCOM4/PAD[3]  TC3/WO[1]   TCC0/WO[5]
- * | 18         | ~11              |  PA16  | A1100Uart TX, I2CSDA SERCOM1.0 | EIC/EXTINT[0]                        PTC/X[4] *SERCOM1/PAD[0]  SERCOM3/PAD[0]  TCC2/WO[0]   TCC0/WO[6]
- * | 19         | ~13              |  PA17  | Expansion                      | EIC/EXTINT[1]                        PTC/X[5] +SERCOM1/PAD[1]  SERCOM3/PAD[1]  TCC2/WO[1]   TCC0/WO[7]
- * | 20         | ~10              |  PA18  | --                             | EIC/EXTINT[2]                        PTC/X[6] +SERCOM1/PAD[2]  SERCOM3/PAD[2]  TC3/WO[0]    TCC0/WO[2]
- * | 21         | ~12              |  PA19  | Expansion                      | EIC/EXTINT[3]                        PTC/X[7] +SERCOM1/PAD[3]  SERCOM3/PAD[3]  TC3/WO[1]    TCC0/WO[3]
- * | 22         | ~6               |  PA20  | SPI MOSI - SERCOM3.2 - SD      | EIC/EXTINT[4]                        PTC/X[8]  SERCOM5/PAD[2] *SERCOM3/PAD[2]              TCC0/WO[6]
- * | 23         | 7                |  PA21  | SPI CLK - SERCOM3.3 - SD       | EIC/EXTINT[5]                        PTC/X[9]  SERCOM5/PAD[3] *SERCOM3/PAD[3]              TCC0/WO[7]
- * | 24         |                  |  PA22  | SPI MISO - SERCOM3.0 - SD      | *SERCOM3/PAD[0]
- * | 25         |                  |  PA23  | SPI SS - SERCOM3.1 - SD        | *SERCOM3/PAD[1]
- * | 26         |                  |  PB22  | SERCOM5.2 - Expansion          | *SERCOM5/PAD[2]
- * | 27         |                  |  PB23  | SERCOM5.3 - Expansion          | *SERCOM5/PAD[3]
- * | 28         |                  |  PA27  | Expansion                      |
- * | 29         |                  |  PA28  | Expansion                      | EIC/EXTINT[8]
- * | 30         | A5               |  PB02  | SERCOM5.0 - Expansion          | EIC/EXTINT[2]  ADC/AIN[10]           PTC/Y[8]  *SERCOM5/PAD[0]
- * | 31         |                  |  PB03  | SERCOM5.1 - Expansion          | *SERCOM5/PAD[1]
+ * | 0          | A0               |  PA02  | FLASH_EN
+ * | 1          | AREF             |  PA03  | VREFA
+ * | 2          | A1               |  PB08  | GSM Power Off
+ * | 3          | A2               |  PB09  | GSM Power On
+ * | 4          | A3               |  PA04  | VREFB
+ * | 5          | A4               |  PA05  | RX GSM SERCOM0.1
+ * | 6          | ~8               |  PA06  | TX GSM SERCOM0.2
+ * | 7          | ~9               |  PA07  | GSM Ring Indicator
+ * | 8          | ~4               |  PA08  | RJ12 TX2 SERCOM2.0
+ * | 9          | ~3               |  PA09  | RJ12 RX2 SERCOM2.1
+ * | 10         | 1 <- TX          |  PA10  | Analog In
+ * | 11         | 0 -> RX          |  PA11  | LED
+ * | 12         | 4                |  PB10  | Expansion
+ * | 13         | 3                |  PB11  | GSM Power Enable
+ * | 14         | 1                |  PA12  | RJ12 TX1/I2C SDA SERCOM4.0
+ * | 15         | ATN              |  PA13  | RJ12 RX1/I2C SCL SERCOM4.1
+ * | 16         | 2                |  PA14  | Micro SD detect
+ * | 17         | ~5               |  PA15  | USB ID
+ * | 18         | ~11              |  PA16  | RS485 TX, I2C SDA, SERCOM1.0
+ * | 19         | ~13              |  PA17  | RS485 RX, I2C SCL, SERCOM1.1
+ * | 20         | ~10              |  PA18  | RS485 Enable
+ * | 21         | ~12              |  PA19  | Relay
+ * | 22         | ~6               |  PA20  | SPI MOSI - SERCOM3.2 - SD
+ * | 23         | 7                |  PA21  | SPI CLK - SERCOM3.3 - SD
+ * | 24         |                  |  PA22  | SPI MISO - SERCOM3.0 - SD
+ * | 25         |                  |  PA23  | SPI SS - SERCOM3.1 - SD
+ * | 26         |                  |  PB22  | SERCOM5.2 - Expansion
+ * | 27         |                  |  PB23  | SERCOM5.3 - Expansion
+ * | 28         |                  |  PA27  | Expansion
+ * | 29         |                  |  PA28  | Expansion
+ * | 30         | A5               |  PB02  | SERCOM5.0 - Expansion
+ * | 31         |                  |  PB03  | SERCOM5.1 - Expansion
+ *
+ * | 32         |                  |  PA24  | USB-
+ * | 33         |                  |  PA25  | USB+
 */
 
 #include "variant.h"
@@ -120,9 +123,9 @@ SERCOM sercom4( SERCOM4 ) ;
 SERCOM sercom5( SERCOM5 ) ;
 
 Uart SerialGSM( &sercom0, PIN_SERIAL_GSM_RX, PIN_SERIAL_GSM_TX, PAD_SERIAL_GSM_RX, PAD_SERIAL_GSM_TX ) ;
-Uart SerialRS485( &sercom2, PIN_SERIAL_RS485_RX, PIN_SERIAL_RS485_TX, PAD_SERIAL_RS485_RX, PAD_SERIAL_RS485_TX );
-Uart SerialFriendcom( &sercom4, PIN_SERIAL_FC_RX, PIN_SERIAL_FC_TX, PAD_SERIAL_FC_RX, PAD_SERIAL_FC_TX );
-Uart SerialA1100( &sercom1, PIN_SERIAL_A1100_RX, PIN_SERIAL_A1100_TX, PAD_SERIAL_A1100_RX, PAD_SERIAL_A1100_TX );
+Uart SerialRJ12A( &sercom4, PIN_SERIAL_RJ12A_RX, PIN_SERIAL_RJ12A_TX, PAD_SERIAL_RJ12A_RX, PAD_SERIAL_RJ12A_TX );
+Uart SerialRJ12B( &sercom2, PIN_SERIAL_RJ12B_RX, PIN_SERIAL_RJ12B_TX, PAD_SERIAL_RJ12B_RX, PAD_SERIAL_RJ12B_TX );
+Uart SerialRS485( &sercom1, PIN_SERIAL_RS485_RX, PIN_SERIAL_RS485_TX, PAD_SERIAL_RS485_RX, PAD_SERIAL_RS485_TX );
 
 
 void SERCOM0_Handler()
@@ -132,16 +135,16 @@ void SERCOM0_Handler()
 
 void SERCOM2_Handler()
 {
-  SerialRS485.IrqHandler();
+  SerialRJ12B.IrqHandler();
 }
 
 void SERCOM4_Handler()
 {
-  SerialFriendcom.IrqHandler();
+  SerialRJ12A.IrqHandler();
 }
 
 void SERCOM1_Handler()
 {
-  SerialA1100.IrqHandler();
+  SerialRS485.IrqHandler();
 }
 
