@@ -11,11 +11,11 @@
         {
           "name": "Homebug",
           "architecture": "samd",
-          "version": "1.8.3",
+          "version": "1.0.0",
           "category": "Contributed",
-          "url": "https://bitbucket.org/homebug/arduino-board-definitions/raw/master/Homebug/hardware/samd/Homebug-1.8.3.zip",
-          "archiveFileName": "Homebug-1.8.3.zip",
-          "checksum": "SHA-256:4de40c329dff0c81250aa4e399d6b4d83ec0862374b0defc4ce674866382bdba",
+          "url": "https://bitbucket.org/homebug/arduino-board-definitions/raw/master/Homebug/hardware/samd/Homebug-1.0.0.zip",
+          "archiveFileName": "Homebug-1.0.0.zip",
+          "checksum": "SHA-256:c7651321c748e213543ee1197627496bab9bbef639c77cb6415eab1d30887766",
           "size": "4296199",
           "boards": [
             {
