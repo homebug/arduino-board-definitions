@@ -3,7 +3,7 @@
   [
     {
       "name": "homebug",
-      "maintainer": "Homebug Pty Ltd",
+      "maintainer": "Homebug (Pty) Ltd.",
       "websiteURL": "http://homebug.co.za",
       "email" : "support@homebug.co.za",
       "platforms":
@@ -11,12 +11,12 @@
         {
           "name": "Homebug",
           "architecture": "samd",
-          "version": "1.0.0",
+          "version": "1.0.2",
           "category": "Contributed",
-          "url": "https://bitbucket.org/homebug/arduino-board-definitions/raw/master/Homebug/hardware/samd/Homebug-1.0.0.zip",
-          "archiveFileName": "Homebug-1.0.0.zip",
-          "checksum": "SHA-256:c7651321c748e213543ee1197627496bab9bbef639c77cb6415eab1d30887766",
-          "size": "4296199",
+          "url": "https://bitbucket.org/homebug/arduino-board-definitions/raw/master/Homebug/hardware/samd/Homebug-1.0.2.zip",
+          "archiveFileName": "Homebug-1.0.2.zip",
+          "checksum": "SHA-256:02efbf3b5daacc540f6fe86512f7d7f5018db4aa53059c081a37903376e030ac",
+          "size": "7772149",
           "boards": [
             {
               "name": "Homebug Ebug v3.0"
