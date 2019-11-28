@@ -35,7 +35,7 @@ static void __initialize()
 
   NVIC_DisableIRQ(EIC_IRQn);
   NVIC_ClearPendingIRQ(EIC_IRQn);
-  NVIC_SetPriority(EIC_IRQn, 0);
+  NVIC_SetPriority(EIC_IRQn, (1 << __NVIC_PRIO_BITS) - 4); // Changed EIC to be fourth lowest
   NVIC_EnableIRQ(EIC_IRQn);
 
   // Enable GCLK for IEC (External Interrupt Controller)
