@@ -1,0 +1,3 @@
+[submodule "Homebug/hardware/samd/1.0.0/libraries/SPIFU/extras/SPIFUBootEbugV3/SPIMemory"]
+	path = Homebug/hardware/samd/1.0.0/libraries/SPIFU/extras/SPIFUBootEbugV3/SPIMemory
+	url = https://github.com/Marzogh/SPIMemory.git
