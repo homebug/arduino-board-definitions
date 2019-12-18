@@ -26,15 +26,6 @@ SPIFlash externalFlash(0);
 // Initialize C library
 extern "C" void __libc_init_array(void);
 
-int strcicmp(char const *a, char const *b, size_t maxLength)
-{
-    for (size_t i=0; i<maxLength; i++, a++, b++) {
-        int d = tolower((unsigned char)*a) - tolower((unsigned char)*b);
-        if (d != 0 || !*a)
-            return d;
-    }
-}
-
 int main() {
   init();
 
@@ -48,62 +39,73 @@ int main() {
 
     externalFlash.begin();
 
-    bool updateFlashed = false;
+    if(externalFlash.getCapacity() >= 524288) {
+      // If the flash has been initialised to a smaller capacity, something is wrong
 
-    struct SpiFlashConfig spiFlashConfig;
-    externalFlash.readAnything(SPIFLASH_LOCATION_CONFIG, spiFlashConfig);
-    
-    if(spiFlashConfig.writeNewFirmware == 1) {
-      // Load new firmware flag has been set
+      bool updateFlashed = false;
   
-      if (spiFlashConfig.newFirmwareSize > SPIFU_SIZE) {
-        // Only update if new firmware contains a bootloader
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(200);
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(200);
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(200);
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(200);
+      struct SpiFlashConfig spiFlashConfig;
+      externalFlash.readAnything(SPIFLASH_LOCATION_CONFIG, spiFlashConfig);
       
-        // skip the SPIFU section
-        uint32_t updateSize = spiFlashConfig.newFirmwareSize - SPIFU_SIZE;
+      if(spiFlashConfig.writeNewFirmwareMagic == WRITE_FIRMWARE_MAGIC) {
+        // Load new firmware flag has been set
+    
+        if (spiFlashConfig.newFirmwareSize > SPIFU_SIZE) {
+          // Only update if new firmware contains a bootloader
+          digitalWrite(LED_BUILTIN, LOW);
+          delay(200);
+          digitalWrite(LED_BUILTIN, HIGH);
+          delay(200);
+          digitalWrite(LED_BUILTIN, LOW);
+          delay(200);
+          digitalWrite(LED_BUILTIN, HIGH);
+          delay(200);
+//          for(;;) {
+//            digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+//            delay(200);
+//          }
+        
+          // skip the SPIFU section
+          uint32_t updateSize = spiFlashConfig.newFirmwareSize - SPIFU_SIZE;
+    
+          uint32_t flashAddress = (uint32_t)SKETCH_START;
+    
+          // erase the pages
+          internalFlash.erase((void*)flashAddress, updateSize);
+    
+          uint8_t buffer[512];
+    
+          // write the pages
+          for (uint32_t i = 0; i < updateSize; i += 512) {
+            // Start reading from after the SPIFU section
+            if(externalFlash.readByteArray(SPIFLASH_LOCATION_FIRMWARE + SPIFU_SIZE + i, buffer, 512)) {
+              internalFlash.write((void*)flashAddress, buffer, 512);
+            } else if(externalFlash.readByteArray(SPIFLASH_LOCATION_FIRMWARE + SPIFU_SIZE + i, buffer, 512)) {
+              // Try once more
+              internalFlash.write((void*)flashAddress, buffer, 512);
+            }
+    
+            flashAddress += 512;
+          }
+    
+          updateFlashed = true;
   
-        uint32_t flashAddress = (uint32_t)SKETCH_START;
-  
-        // erase the pages
-        internalFlash.erase((void*)flashAddress, updateSize);
-  
-        uint8_t buffer[512];
-  
-        // write the pages
-        for (uint32_t i = 0; i < updateSize; i += 512) {
-          // Start reading from after the SPIFU section
-          externalFlash.readByteArray(SPIFLASH_LOCATION_FIRMWARE + SPIFU_SIZE + i, buffer, 512);
-  
-          internalFlash.write((void*)flashAddress, buffer, 512);
-  
-          flashAddress += 512;
+          digitalWrite(LED_BUILTIN, LOW);
+          delay(200);
+          digitalWrite(LED_BUILTIN, HIGH);
+          delay(200);
+          digitalWrite(LED_BUILTIN, LOW);
+          delay(200);
+          digitalWrite(LED_BUILTIN, HIGH);
+          delay(200);
         }
-  
-        updateFlashed = true;
-
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(200);
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(200);
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(200);
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(200);
       }
+      // Reset flag so that we don't perform the update again
+      spiFlashConfig.writeNewFirmwareMagic = 0xFFFFFF;
+      spiFlashConfig.newFirmwareSize = 0;
+      externalFlash.eraseSector(SPIFLASH_LOCATION_CONFIG); // Erases one 4k sector
+      externalFlash.writeAnything(SPIFLASH_LOCATION_CONFIG, spiFlashConfig);
     }
-    // Reset flag so that we don't perform the update again
-    spiFlashConfig.writeNewFirmware = 0;
-    spiFlashConfig.newFirmwareSize = 0;
-    externalFlash.eraseSector(SPIFLASH_LOCATION_CONFIG); // Erases one 4k sector
-    externalFlash.writeAnything(SPIFLASH_LOCATION_CONFIG, spiFlashConfig);
   }
 
   digitalWrite(LED_BUILTIN, LOW);

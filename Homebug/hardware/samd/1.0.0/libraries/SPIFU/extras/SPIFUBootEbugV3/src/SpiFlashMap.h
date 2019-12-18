@@ -9,6 +9,8 @@
 // The flash can only be written after it has been erased. The smallest possible erasable blocks are 4k.
 // Therefore always allign structs to a 4k block.
 
+#define WRITE_FIRMWARE_MAGIC       0xf49f527d
+
 #define SPIFLASH_LOCATION_CONFIG   0x0
 #define SPIFLASH_LOCATION_FIRMWARE 0x40000
 #define FIRMWARE_MAX_SIZE          0x40000
@@ -23,7 +25,7 @@
 
 struct SpiFlashConfig
 {
-  bool writeNewFirmware;
+  uint32_t writeNewFirmwareMagic;
   char newFirmwareMD5[33];
   size_t newFirmwareStartAddress;
   size_t newFirmwareSize;
