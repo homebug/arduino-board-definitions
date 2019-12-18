@@ -1,1 +1,2 @@
 recipe.hooks.sketch.prebuild.1.pattern={build.variant.path}/make-git-version.sh "{build.source.path}" "{build.path}"
+recipe.hooks.sketch.prebuild.1.pattern.windows={build.variant.path}/make-git-version.bat "{build.source.path}" "{build.path}"
