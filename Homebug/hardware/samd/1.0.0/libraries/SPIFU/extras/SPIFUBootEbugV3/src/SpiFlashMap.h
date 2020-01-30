@@ -16,8 +16,8 @@
 #define FIRMWARE_MAX_SIZE          0x40000
 
 // SPI Flash Updater
-#define SPIFU_START    0x2000 // UF2 bootloader: The bootloader sits at 0x00000000, and the application starts at 0x00002000 (SAMD21) or 0x00004000 (SAMD51).
-#define SPIFU_SIZE     0x4000
+#define SPIFU_START    0x2000UL // UF2 bootloader: The bootloader sits at 0x00000000, and the application starts at 0x00002000 (SAMD21) or 0x00004000 (SAMD51).
+#define SPIFU_SIZE     0x4000UL
 #define SKETCH_START   (uint32_t*)(SPIFU_START + SPIFU_SIZE)
 
 
